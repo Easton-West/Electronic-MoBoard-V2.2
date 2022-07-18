@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Electronic MoBoard v2.2</title>
+    <meta name="description" content="TMA">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="tma.css">
+</head>
+
+<body>
+    <div>
+        <canvas id='canvas'></canvas>
+    </div>
+    <form id='readout'>
+        <div id="buttonWrapper">
+            <input type="radio" name="selection" class="tabSelect" id="solutionButton" checked>
+            <label for="solutionButton" id="solLabel">Solution</label>
+            <input type="radio" name="selection" class="tabSelect" id="trialButton">
+            <label for="trialButton" id="triLabel">Trial</label>
+        </div>
+        <div id="dataWrapper">
+            <div id="solutionWrapper">
+                <div id="ctcSelectWrapper">
+                    <div>
+                        <lable for="ctcInput">Add CtC #</lable>
+                        <input type="text" id="ctcInput" name="ctcInput" class="input_boxes">
+                    </div>
+                    <div>
+                        <lable for="ctcSelect">Contacts</lable>
+                        <select name="ctcSelect" id="ctcSelect" class="input_boxes"></select>
+                    </div>
+                    <div>
+                        <button type="button" id="removeButton">Remove</button>
+                    </div>
+                </div>
+                <div id="generalData">
+                    <div class="inpt">
+                        <label for="los" class="name-label">LOS</label>
+                        <input type="text" id="los" name="los" class="input_boxes" tabindex="-1" readonly>
+                    </div>
+                    <div class="inpt">
+                        <label for="tbo" class="name-label">TBO</label>
+                        <input type="text" id="tbo" name="tbo" class="input_boxes" tabindex="-1" readonly>
+                    </div>
+                </div>
+                <div id="platformWrapper">
+                    <div id="osParams">
+                        <div class="inpt">
+                            <input type="checkbox" id="os" name="osOnOff" value="show" checked>
+                            <label for="os" class='heading'>Ownship</label>
+                        </div>
+                        <div class="inpt">
+                            <label for="SPDo" class="name-label">SPD<sub>o</sub></label>
+                            <input type="text" id="SPDo" name="SPDo" class="input_boxes" tabindex="-1" readonly>
+                        </div>
+                        <div class="inpt">
+                            <label for="CRSo" class="name-label">CRS<sub>o</sub></label>
+                            <input type="text" id="CRSo" name="CRSo" class="input_boxes" tabindex="-1" readonly>
+                        </div>
+                        <div class="inpt">
+                            <label for="lla" class="name-label">LLA</label>
+                            <input type="text" id="lla" name="lla" class="input_boxes" tabindex="-1" readonly>
+                        </div>
+                        <div class="inpt">
+                            <label for="soi" class="name-label">SPD<sub>oi</sub></label>
+                            <input type="text" id="soi" name="soi" class="input_boxes" tabindex="-1" readonly>
+                        </div>
+                        <div class="inpt">
+                            <label for="soa" class="name-label">SPD<sub>oa</sub> </label>
+                            <input type="text" id="soa" name="soa" class="input_boxes" tabindex="-1" readonly>
+                        </div>
+                    </div>
+                    <div id='lowerReadouts'>
+                        <div id='lower'>
+                            <div class="inpt">
+                                <label for="sri" class="name-label">SPD<sub>ri</sub></label>
+                                <input type="text" id="sri" name="sri" class="input_boxes" tabindex="-1" readonly>
+                            </div><br>
+                            <div class="inpt">
+                                <label for="sra" class="name-label">SPD<sub>ra</sub></label>
+                                <input type="text" id="sra" name="sra" class="input_boxes" tabindex="-1" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tgtParams">
+                        <div class="inpt">
+                            <input type="checkbox" id="tgt" name="tgtOnOff" value="show" checked>
+                            <label for="tgt" class='heading'>Target</label>
+                        </div>
+                        <div class="inpt">
+                            <label for="SPDt" class="name-label">SPD<sub>t</sub></label>
+                            <input type="text" id="SPDt" name="SPDt" class="input_boxes" tabindex="-1" readonly>
+                        </div>
+                        <div class="inpt">
+                            <label for="CRSt" class="name-label">CRS<sub>t</sub></label>
+                            <input type="text" id="CRSt" name="CRSt" class="input_boxes" tabindex="-1" readonly>
+                        </div>
+                        <div class="inpt">
+                            <label for="aob" class="name-label">AOB</label>
+                            <input type="text" id="aob" name="aob" class="input_boxes" tabindex="-1" readonly>
+                        </div>
+                        <div class="inpt">
+                            <label for="sti" class="name-label">SPD<sub>ti</sub></label>
+                            <input type="text" id="sti" name="sti" class="input_boxes" tabindex="-1" readonly>
+                        </div>
+                        <div class="inpt">
+                            <label for="sta" class="name-label">SPD<sub>ta</sub></label>
+                            <input type="text" id="sta" name="sta" class="input_boxes" tabindex="-1" readonly>
+                        </div>
+                    </div>
+                </div>
+                <h3>Leg Input</h3>
+                <div id="cpaReadout">
+                    <div id="cpaData">
+                        <div id="osLegInputs">
+                            <pre><p>OS  </p></pre>
+                            <div class="inpt leg_input">
+                                <label for="osLegTime" class="name-label">Time (Z)</label>
+                                <input type="text" id="osLegTime" name="osLegTime" class="input_boxes">
+                            </div>
+                            <div class="inpt leg_input">
+                                <label for="osLegCrs" class="name-label">CRS</label>
+                                <input type="text" id="osLegCrs" name="osLegCrs" class="input_boxes">
+                            </div>
+                            <div class="inpt leg_input">
+                                <label for="osLegSpd" class="name-label">SPD</label>
+                                <input type="text" id="osLegSpd" name="osLegSpd" class="input_boxes">
+                            </div>
+                        </div>
+                        <div id="oslegWrapper">
+                            <div id="oslegButtonWrapper">
+                                <button type="button" id="osaButton">Add Leg</button>
+                                <button type="button" id="osdButton">Delete Leg</button>
+                            </div>
+                            <div>
+                                <pre>                                             Time (z)         CRS         SPD</pre>
+                            </div>
+                            <div>
+                                <select id="oslegReadout"></select>
+                            </div>
+                        </div>
+                        <div id="tgtLegInputs">
+                            <p>TGT</p>
+                            <div class="inpt leg_input">
+                                <label for="tgtLegTime" class="name-label">Time (Z)</label>
+                                <input type="text" id="tgtLegTime" name="tgtLegTime" class="input_boxes">
+                            </div>
+                            <div class="inpt leg_input">
+                                <label for="tgtLegBrg" class="name-label">BRG</label>
+                                <input type="text" id="tgtLegBrg" name="tgtLegBrg" value="0" class="input_boxes">
+                            </div>
+                            <div class="inpt leg_input">
+                                <label for="tgtLegRng" class="name-label">RNG</label>
+                                <input type="text" id="tgtLegRng" name="tgtLegRng" value="0" class="input_boxes">
+                            </div>
+                            <div class="inpt leg_input">
+                                <label for="tgtLegCrs" class="name-label">CRS</label>
+                                <input type="text" id="tgtLegCrs" name="tgtLegCrs" value="0" class="input_boxes">
+                            </div>
+                            <div class="inpt leg_input">
+                                <label for="tgtLegSpd" class="name-label">SPD</label>
+                                <input type="text" id="tgtLegSpd" name="tgtLegSpd" value="0" class="input_boxes">
+                            </div>
+                        </div>
+                        <div id="tgtLegWrapper">
+                            <div id="tgtLegButtonWrapper">
+                                <button type="button" id="tgtaButton">Add Leg</button>
+                                <button type="button" id="tgtdButton">Delete Leg</button>
+                                <div class="overideLock">
+                                    <input type="checkbox" id="overide" name="overide" value="show">
+                                    <label for="overide" class='lock'>Overide</label>
+                                </div>
+                            </div>
+                            <div>
+                                <pre>                    Time (z)         BRG          RNG           CRS            SPD</pre>
+                            </div>
+                            <div>
+                                <select id="tgtlegReadout"></select>
+                            </div>
+                        </div>
+                        <div id="cpaOutput">
+                            <p>CPA:</p>
+                            <div class="inpt" id="cpaBrgWrap">
+                                <label for="cpaBrg" class="name-label">BRG</label>
+                                <input type="text" id="cpaBrg" name="cpaBrg" value="4" class="input_boxes" tabindex="-1"
+                                    readonly>
+                            </div>
+                            <div class="inpt">
+                                <label for="cpaRng" class="name-label">RNG</label>
+                                <input type="text" id="cpaRng" name="cpaRng" value="4" class="input_boxes" tabindex="-1"
+                                    readonly>
+                            </div>
+                            <div class="inpt">
+                                <label for="cpaTime" class="name-label">TIME</label>
+                                <input type="text" id="cpaTime" name="cpaTime" value="4" class="input_boxes"
+                                    tabindex="-1" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id='freq'>
+                    <div>
+                        <h3>Frequency</h3>
+                    </div>
+                    <div id="frqwrapper">
+                        <div class="inpt" id="ssLabel">
+                            <label for="ss" class="name-label">SS</label>
+                            <input type="text" id="ss" name="ss" class="input_boxes">
+                        </div>
+                        <div class="inpt">
+                            <label for="FRQr" class="name-label">FRQ<sub>r</sub></label>
+                            <input type="text" id="FRQr" name="FRQr" class="input_boxes">
+                        </div>
+                        <div class="inpt">
+                            <label for="FRQc" class="name-label">FRQ<sub>c</sub></label>
+                            <input type="text" id="FRQc" name="FRQc" class="input_boxes" tabindex="-1" readonly>
+                        </div>
+                        <div class="inpt">
+                            <label for="FRQo" class="name-label">FRQ<sub>o</sub></label>
+                            <input type="text" id="FRQo" name="FRQo" class="input_boxes" tabindex="-1" readonly>
+                        </div>
+                    </div>
+                </div>
+                <h3>Expecteds</h3>
+                <div id="expectedReadout">
+                    <div id="expectedBearing" class="expecteds">
+                        <label for="exbrg" class="name-label">BRG</label>
+                        <input type="text" id="exbrg" name="exbrg" class="input_boxes brgInput">
+                    </div>
+                    <div id="expectedRngInput" class="expecteds">
+                        <label for="rng1" class="name-label">RNG</label>
+                        <input type="text" id="rng1" name="rng1" class="input_boxes rngInput">
+                        <input type="text" id="rng2" name="rng2" class="input_boxes rngInput">
+                        <input type="text" id="rng3" name="rng3" class="input_boxes rngInput">
+                    </div>
+                    <div id="brgRateReadout" class="expecteds">
+                        <label for="brgRate" class="name-label">BRG<sup>o</sup></label>
+                        <input type="text" id="brgRate1" name="brgRate" class="input_boxes brgRate" tabindex="-1"
+                            readonly>
+                        <input type="text" id="brgRate2" name="brgRate" class="input_boxes brgRate" tabindex="-1"
+                            readonly>
+                        <input type="text" id="brgRate3" name="brgRate" class="input_boxes brgRate" tabindex="-1"
+                            readonly>
+                    </div>
+                    <div id="brgXingReadout" class="expecteds">
+                        <label for="brgXing" class="name-label">BRG X</label>
+                        <input type="text" id="brgXing1" name="brgXing" class="input_boxes brgXing" tabindex="-1"
+                            readonly>
+                        <input type="text" id="brgXing2" name="brgXing" class="input_boxes brgXing" tabindex="-1"
+                            readonly>
+                        <input type="text" id="brgXing3" name="brgXing" class="input_boxes brgXing" tabindex="-1"
+                            readonly>
+                    </div>
+                </div>
+            </div>
+            <div id="trialWrapper">
+                <div id="generalData" class="general">
+                    <div class="inpt">
+                        <label for="tlos" class="name-label">LOS</label>
+                        <input type="text" id="tlos" name="tlos" class="input_boxes">
+                    </div>
+                    <div class="inpt">
+                        <label for="ttbo" class="name-label">TBO</label>
+                        <input type="text" id="ttbo" name="ttbo" class="input_boxes" tabindex="-1" readonly>
+                    </div>
+                </div>
+                <div id="platformWrapper">
+                    <div id="osParams">
+                        <div class="inpt">
+                            <input type="checkbox" id="tos" name="tosOnOff" value="show" checked>
+                            <label for="tos" class='heading'>Ownship</label>
+                        </div>
+                        <div class="inpt">
+                            <label for="tSPDo" class="name-label">SPD<sub>o</sub></label>
+                            <input type="text" id="tSPDo" name="tSPDo" class="input_boxes">
+                        </div>
+                        <div class="inpt">
+                            <label for="tCRSo" class="name-label">CRS<sub>o</sub></label>
+                            <input type="text" id="tCRSo" name="tCRSo" class="input_boxes">
+                        </div>
+                        <div class="inpt">
+                            <label for="tlla" class="name-label">LLA</label>
+                            <input type="text" id="tlla" name="tlla" class="input_boxes" tabindex="-1" readonly>
+                        </div>
+                        <div class="inpt">
+                            <label for="tsoi" class="name-label">SPD<sub>oi</sub></label>
+                            <input type="text" id="tsoi" name="tsoi" class="input_boxes" tabindex="-1" readonly>
+                        </div>
+                        <div class="inpt">
+                            <label for="tsoa" class="name-label">SPD<sub>oa</sub> </label>
+                            <input type="text" id="tsoa" name="tsoa" class="input_boxes" tabindex="-1" readonly>
+                        </div>
+                    </div>
+                    <div id='lowerReadouts'>
+                        <div id='lower'>
+                            <div class="inpt">
+                                <label for="tsri" class="name-label">SPD<sub>ri</sub></label>
+                                <input type="text" id="tsri" name="tsri" class="input_boxes" tabindex="-1" readonly>
+                            </div><br>
+                            <div class="inpt">
+                                <label for="tsra" class="name-label">SPD<sub>ra</sub></label>
+                                <input type="text" id="tsra" name="tsra" class="input_boxes" tabindex="-1" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tgtParams">
+                        <div class="inpt">
+                            <input type="checkbox" id="ttgt" name="ttgtOnOff" value="show" checked>
+                            <label for="ttgt" class='heading'> Target</label>
+                        </div>
+                        <div class="inpt">
+                            <label for="tSPDt" class="name-label">SPD<sub>t</sub></label>
+                            <input type="text" id="tSPDt" name="tSPDt" class="input_boxes">
+                        </div>
+                        <div class="inpt">
+                            <label for="tCRSt" class="name-label">CRS<sub>t</sub></label>
+                            <input type="text" id="tCRSt" name="tCRSt" class="input_boxes">
+                        </div>
+                        <div class="inpt">
+                            <label for="taob" class="name-label">AOB</label>
+                            <input type="text" id="taob" name="taob" class="input_boxes" tabindex="-1" readonly>
+                        </div>
+                        <div class="inpt">
+                            <label for="tsti" class="name-label">SPD<sub>ti</sub></label>
+                            <input type="text" id="tsti" name="tsti" class="input_boxes" tabindex="-1" readonly>
+                        </div>
+                        <div class="inpt">
+                            <label for="tsta" class="name-label">SPD<sub>ta</sub></label>
+                            <input type="text" id="tsta" name="tsta" class="input_boxes" tabindex="-1" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div id='freq1'>
+                    <div>
+                        <h3>Frequency</h3>
+                    </div>
+                    <div id="trialfrqwrapper">
+                        <div id="frqrToFrqo">
+                            <div class="frqLabel">
+                                <p class="frqp">FRQ<sub>r</sub> > FRQ<sub>o</sub></p>
+                            </div>
+                            <div class="inpt">
+                                <label for="tFRQr" class="name-label">FRQ<sub>r</sub></label>
+                                <input type="text" id="tFRQr" name="tFRQr" class="input_boxes">
+                            </div>
+                            <div class="inpt">
+                                <label for="trialFRQc" class="name-label">FRQ<sub>c</sub></label>
+                                <input type="text" id="tFRQc" name="tFRQc" class="input_boxes" tabindex="-1" readonly>
+                            </div>
+                            <div class="inpt">
+                                <label for="tFRQo" class="name-label">FRQ<sub>o</sub></label>
+                                <input type="text" id="tFRQo" name="tFRQo" class="input_boxes" tabindex="-1" readonly>
+                            </div>
+                        </div>
+                        <div id="SoundSpeed">
+                            <div class="inpt" id="ssLabel">
+                                <label for="tss" class="name-label">SS</label>
+                                <input type="text" id="tss" name="tss" class="input_boxes">
+                            </div>
+                        </div>
+                        <div id="frqoToCrs">
+                            <div class="frqLabel">
+                                <p class="frqp">FRQ<sub>o</sub> > CRS</p>
+                            </div>
+                            <div class="inpt">
+                                <label for="tFRQo1" class="name-label">FRQ<sub>o</sub></label>
+                                <input type="text" id="tFRQo1" name="tFRQo1" class="input_boxes">
+                            </div>
+                            <div class="inpt">
+                                <label for="tFRQr1" class="name-label">FRQ<sub>r</sub></label>
+                                <input type="text" id="tFRQr1" name="tFRQr1" class="input_boxes">
+                            </div>
+                            <div class="inpt">
+                                <label for="tCrs1" class="name-label">CRS</label>
+                                <input type="text" id="tCrs1" name="tCrs1" class="input_boxes" tabindex="-1" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h3>Expecteds</h3>
+                <div id="expectedReadout">
+                    <div id="expectedBearing" class="expecteds">
+                        <label for="texbrg" class="name-label">BRG</label>
+                        <input type="text" id="texbrg" name="texbrg" class="input_boxes brgInput">
+                    </div>
+                    <div id="expectedRngInput" class="expecteds">
+                        <label for="trng1" class="name-label">RNG</label>
+                        <input type="text" id="trng1" name="trng1" class="input_boxes rngInput">
+                        <input type="text" id="trng2" name="trng2" class="input_boxes rngInput">
+                        <input type="text" id="trng3" name="trng3" class="input_boxes rngInput">
+                    </div>
+                    <div id="brgRateReadout" class="expecteds">
+                        <label for="tbrgRate" class="name-label">BRG<sup>o</sup></label>
+                        <input type="text" id="tbrgRate1" name="tbrgRate" class="input_boxes brgRate" tabindex="-1"
+                            readonly>
+                        <input type="text" id="tbrgRate2" name="tbrgRate" class="input_boxes brgRate" tabindex="-1"
+                            readonly>
+                        <input type="text" id="tbrgRate3" name="tbrgRate" class="input_boxes brgRate" tabindex="-1"
+                            readonly>
+                    </div>
+                    <div id="brgXingReadout" class="expecteds">
+                        <label for="tbrgXing" class="name-label">BRG X</label>
+                        <input type="text" id="tbrgXing1" name="tbrgXing" class="input_boxes brgXing" tabindex="-1"
+                            readonly>
+                        <input type="text" id="tbrgXing2" name="tbrgXing" class="input_boxes brgXing" tabindex="-1"
+                            readonly>
+                        <input type="text" id="tbrgXing3" name="tbrgXing" class="input_boxes brgXing" tabindex="-1"
+                            readonly>
+                    </div>
+                </div>
+                <h3>SPD<sub>ti</sub> > CRS</h3>
+                <div id="spdToCrs">
+                    <div id="spdtiWrapper">
+                        <label for="spdti" class="name-label">SPD<sub>ti</sub></label>
+                        <input type="text" id="spdti" name="spdti" class="input_boxes">
+                    </div>
+                    <div id="crsSpdtiWrapper">
+                        <label for="crsSpdti" class="name-label">CRS</label>
+                        <input type="text" id="crsSpdti" name="crsSpdti" class="input_boxes">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <script>
+        let sb = document.getElementById('solutionButton');
+        let tb = document.getElementById('trialButton');
+        let sol1 = document.getElementById('solLabel');
+        let tri1 = document.getElementById('triLabel');
+        let sw = document.getElementById('solutionWrapper');
+        let tw = document.getElementById('trialWrapper');
+
+        sb.addEventListener('change', e => {
+            sw.style.display = 'contents';
+            sol1.style.backgroundColor = '#2b2a2b';
+            tw.style.display = 'none';
+            tri1.style.backgroundColor = '#000000';
+        })
+
+        tb.addEventListener('change', e => {
+            sw.style.display = 'none';
+            sol1.style.backgroundColor = '#000000';
+            tw.style.display = 'contents';
+            tri1.style.backgroundColor = '#2b2a2b';
+        })
+    </script>
+    <script src="main.js"></script>
+    <script src="math.js"></script>
+    <script src="readout.js"></script>
+    <script src="trial_readout.js"></script>
+    <script src="messages.js"></script>
+</body>
+
+</html>
