@@ -59,6 +59,11 @@ timeBeforeOs.setAttribute("type", "text");
 timeBeforeOs.setAttribute("value", "Cannot be before first OS leg");
 timeBeforeOs.classList.add("message");
 body.appendChild(timeBeforeOs);
+let cantDeleteLastM = document.createElement("input");
+cantDeleteLastM.setAttribute("type", "text");
+cantDeleteLastM.setAttribute("value", "Cannot delete last manual leg");
+cantDeleteLastM.classList.add("message");
+body.appendChild(cantDeleteLastM);
 
 //contact required
 function contactRequired() {
@@ -149,6 +154,13 @@ function osLegReq() {
     style(iOsLeg);
     iOsLeg.style.left = pos.left + scrollX + "px";
     iOsLeg.style.top = pos.top + 15 + scrollY + "px";
+}
+
+function deleteLastManual() {
+    let pos = deleteTgtLeg.getBoundingClientRect();
+    style(cantDeleteLastM);
+    cantDeleteLastM.style.left = pos.left + scrollX + "px";
+    cantDeleteLastM.style.top = pos.top + 15 + scrollY + "px";
 }
 
 function style(el) {

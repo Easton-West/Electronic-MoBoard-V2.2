@@ -139,20 +139,23 @@ addTgtLeg.addEventListener('click', e => {
     }
     let t = checkTime(tgtLegTime.value);
     if (compareToOsLegs(t)) return
-    let lock = overide.checked ? 0 : 1;
+    let overridden = overide.checked ? 0 : 1;
     overide.checked = true;
     for (let i = 0; i < target[vectorSelect].legs.length; i++) {
         if (compareTimes(target[vectorSelect].legs[i][0], t)) {
             return
         }
     }
-    target[vectorSelect].legs.push([t, Number(tgtLegBrg.value), Number(tgtLegRng.value), Number(tgtLegCrs.value), Number(tgtLegSpd.value), lock, 'tgt']);
+    target[vectorSelect].legs.push([t, Number(tgtLegBrg.value), Number(tgtLegRng.value), Number(tgtLegCrs.value), Number(tgtLegSpd.value), overridden, 'tgt']);
     target[vectorSelect].sortLegs();
     console.log(target[vectorSelect].legs)
     target[vectorSelect].setTimeline();
-    let display = "\u00a0\u00a0\u00a0" + tgtLegTime.value + "Z\u00a0\u00a0 |\u00a0\u00a0 " + target[vectorSelect].brg + "T\u00a0\u00a0 |\u00a0\u00a0 " + target[vectorSelect].rng + "NM\u00a0\u00a0 |\u00a0\u00a0 " + tgtLegCrs.value + "T\u00a0\u00a0 |\u00a0\u00a0 " + tgtLegSpd.value + "KTS";
+    let display = overridden === 0 ?
+        "\u00a0\u00a0\u00a0" + tgtLegTime.value + "Z\u00a0\u00a0 |\u00a0\u00a0 " + target[vectorSelect].brg + "T\u00a0\u00a0 |\u00a0\u00a0 " + target[vectorSelect].rng + "NM\u00a0\u00a0 |\u00a0\u00a0 " + tgtLegCrs.value + "T\u00a0\u00a0 |\u00a0\u00a0 " + tgtLegSpd.value + "KTS":
+        "M\u00a0\u00a0\u00a0" + tgtLegTime.value + "Z\u00a0\u00a0 |\u00a0\u00a0 " + target[vectorSelect].brg + "T\u00a0\u00a0 |\u00a0\u00a0 " + target[vectorSelect].rng + "NM\u00a0\u00a0 |\u00a0\u00a0 " + tgtLegCrs.value + "T\u00a0\u00a0 |\u00a0\u00a0 " + tgtLegSpd.value + "KTS"
     let option = new Option(display, "visible");
     option.classList.add(ctcSelect.value);
+    option.setAttribute("data-overide", overridden)
     option.setAttribute("data-time", t)
     tgtLegReadout.add(option, undefined);
     setLegVisibility(ctcSelect.value)
@@ -164,8 +167,14 @@ addTgtLeg.addEventListener('click', e => {
 deleteTgtLeg.addEventListener('click', e => {
     if (target[vectorSelect].legs.length === 0) return;
     if (tgtLegReadout.selectedIndex === -1) return;
+    let lastOveridden  = target[vectorSelect].legs.filter(l => l[5] == 1);
     let i = tgtLegReadout.selectedIndex;
     let o = tgtLegReadout[i];
+    if (o.getAttribute("data-overide") == 1 && lastOveridden.length === 1) {
+        deleteLastManual()
+        callTimer(cantDeleteLastM)
+        return
+    }
     let vis = tgtLegReadout.getElementsByClassName(ctcSelect.value);
     let selectedOpts = Array.from(vis);
     let index = selectedOpts.findIndex(opts => opts.getAttribute("data-time") == o.getAttribute("data-time"))
